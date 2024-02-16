@@ -22,6 +22,29 @@ class ConfigFiles(object):
         """
         self.config_path    : PosixPath = Path("app/config")
         self.ini_ext        : str       = "ini"
-    
+
+        self._get_ini_files_path()
+        self._read_ini_files()
+        
     def _get_ini_files_path(self) -> None:
-        os.listdir()
+        """
+        Get the .ini filespath
+        """
+        self.ini_filepath: list[str] = []
+        [self.ini_filepath.append(fp) if self.ini_ext in fp else None for fp in os.listdir(self.config_path)]
+    
+    def _read_ini_files(self) -> None:
+        """
+        Read the .ini files
+        """
+        self.ini: dict[str, configparser.ConfigParser] = {}
+        for ini_filepath in self.ini_filepath:
+            name: str = ini_filepath.split(".")[0]
+            
+            config: configparser.ConfigParser = configparser.ConfigParser()
+            config.read(Path(self.config_path, ini_filepath))
+            self.ini[name] = config
+    
+    @property
+    def dot_ini(self) -> dict[str, configparser.ConfigParser]:
+        return self.ini
