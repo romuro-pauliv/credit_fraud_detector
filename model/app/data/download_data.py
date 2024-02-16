@@ -32,10 +32,12 @@ class DownloadData(object):
         self.csv_path   : PosixPath     = Path(configfiles.dot_ini['data']['data:path']['csv_path'])
         self.rsrc_path  : PosixPath     = Path(self.app_dir, self.resources_dir)
         
+        self.zip_name   : str           = configfiles.dot_ini['data']['data:filename']['zip']
+        self.csv_name   : str           = configfiles.dot_ini['data']['data:filename']['csv']
+        
         self.rsrc_files : list[str]     = []
         
         self._check_resources()
-        self._get_resources_files()
         
     def get(self) -> None:
         """
@@ -64,10 +66,20 @@ class DownloadData(object):
         if self.resources_dir not in os.listdir(self.app_dir):
             os.mkdir(self.rsrc_path)
     
-    def _get_resources_files(self) -> None:
+    def download(self) -> PosixPath:
         """
-        Get the resources filenames.
+        Download and unzip the data
+        return:
+            PosixPath: The path of the csv file
         """
-        self.rsrc_files: list[str] = os.listdir(self.rsrc_path)
-    
-    
+        rsrc_files: list[str] = os.listdir(self.rsrc_path)
+        
+        if self.zip_name not in rsrc_files:
+            self.get()
+            self.save_zip()
+            self.unzip()
+        
+        if self.csv_name not in rsrc_files:
+            self.unzip()
+        
+        return Path(self.app_dir, self.resources_dir, self.csv_name)
