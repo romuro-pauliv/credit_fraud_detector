@@ -48,3 +48,6 @@ class ConfigFiles(object):
     @property
     def dot_ini(self) -> dict[str, configparser.ConfigParser]:
         return self.ini
+
+
+configfiles: ConfigFiles = ConfigFiles()
