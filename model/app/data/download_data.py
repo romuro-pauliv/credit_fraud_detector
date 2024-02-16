@@ -7,6 +7,8 @@
 # | Imports |----------------------------------------------------------------------------------------------------------|
 from config.config_files import configfiles
 
+from log.genlog import genlog
+
 from pathlib import PosixPath, Path
 
 import zipfile
@@ -43,7 +45,12 @@ class DownloadData(object):
         """
         Request data to uri
         """
+        genlog.report("downloading...", f"{self.rsrc_path}/{self.zip_name}")
         self.r: requests.models.Response = requests.get(self.uri)
+        if self.r.status_code == 200:
+            genlog.report(True, f"{self.rsrc_path}/{self.zip_name}")
+        else:
+            genlog.report(False, f"{self.rsrc_path}/{self.zip_name}")
         
     def save_zip(self) -> None:
         """
@@ -51,6 +58,7 @@ class DownloadData(object):
         """
         with open(self.zip_path, "wb") as file:
             file.write(self.r.content)
+        genlog.report(True, f"save zip {self.zip_path}")
     
     def unzip(self) -> None:
         """
@@ -58,6 +66,7 @@ class DownloadData(object):
         """
         with zipfile.ZipFile(self.zip_path, 'r') as zip_ref:
             zip_ref.extractall(self.csv_path)
+        genlog.report(True, f"unzip {self.zip_path}")
     
     def _check_resources(self) -> None:
         """
@@ -65,6 +74,7 @@ class DownloadData(object):
         """
         if self.resources_dir not in os.listdir(self.app_dir):
             os.mkdir(self.rsrc_path)
+            genlog.report(True, f"created {self.rsrc_path} dir")
     
     def download(self) -> PosixPath:
         """
@@ -78,8 +88,11 @@ class DownloadData(object):
             self.get()
             self.save_zip()
             self.unzip()
-        
-        if self.csv_name not in rsrc_files:
-            self.unzip()
-        
+        else:
+            if self.csv_name not in rsrc_files:
+                genlog.report(True, f"{self.zip_path} in cache")
+                self.unzip()
+            else:
+                genlog.report(True, "all files in cache")
+            
         return Path(self.app_dir, self.resources_dir, self.csv_name)
