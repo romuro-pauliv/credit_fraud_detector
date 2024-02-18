@@ -7,8 +7,11 @@
 # | Imports |----------------------------------------------------------------------------------------------------------|
 from log.genlog import genlog
 
+from config.config_files import configfiles
+
 from pandas.core.frame import DataFrame as pdDataframe
 from pandas.core.indexes.base import Index as pdIndex
+from typing import Callable
 # |--------------------------------------------------------------------------------------------------------------------|
 
 
@@ -24,6 +27,8 @@ class CSVInfo(object):
             dataframe (pdDataframe): Dataframe to see the infos
         """
         self.df: pdDataframe = dataframe
+        
+        self.clmn_class: str = configfiles.dot_ini['dataframe']['dataframe:columns']['class']
     
     def head(self) -> None:
         """
@@ -56,3 +61,14 @@ class CSVInfo(object):
         print(self.df.columns)
         genlog.report("debug", "csv columns")
         return self.df.columns
+
+    def frauds_count(self) -> None:
+        """
+        Amount of fraud and no fraud in the dataframe
+        """
+        count_func: Callable[[int], float] = lambda index : round(
+            self.df[self.clmn_class].value_counts()[index]/len(self.df) * 100, 2
+        )
+        
+        genlog.report("debug", f"No Frauds {count_func(0)}% of the dataset")
+        genlog.report("debug", f"Frauds {count_func(1)}% of the dataset")
