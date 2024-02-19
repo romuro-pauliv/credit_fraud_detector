@@ -36,3 +36,9 @@ time_amount_dist.show()
 from data.treatment.time_amount_scale import ScaleTimeAndAmount
 df: pdDataframe = ScaleTimeAndAmount(df).scale()
 # |--------------------------------------------------------------------------------------------------------------------|
+
+# | Split in Training and Test dataframe |-----------------------------------------------------------------------------|
+from data.treatment.split_train_test import SplitTrainTest
+split_train_test: SplitTrainTest = SplitTrainTest(df)
+split_train_test.split()
+# |--------------------------------------------------------------------------------------------------------------------|
