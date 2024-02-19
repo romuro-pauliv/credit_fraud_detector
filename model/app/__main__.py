@@ -46,5 +46,10 @@ split_train_test.split()
 # | Random Under Sampling |--------------------------------------------------------------------------------------------|
 from data.treatment.random_under_sampling import RandomUnderSampling
 random_under_sampling: RandomUnderSampling = RandomUnderSampling(df)
-random_under_sampling.balanced_df
+# |--------------------------------------------------------------------------------------------------------------------|
+
+# | Correlation Graph |------------------------------------------------------------------------------------------------|
+from data.analysis.graph.correlation_matrix_dataframe import CorrelationMatrixGraph
+correlation_matrix_graph: CorrelationMatrixGraph = CorrelationMatrixGraph(df, random_under_sampling.balanced_df)
+correlation_matrix_graph.show()
 # |--------------------------------------------------------------------------------------------------------------------|
