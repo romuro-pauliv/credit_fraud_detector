@@ -32,10 +32,10 @@ df: pdDataframe = read_csv.dataframe
 # time_amount_dist.show()
 # # |--------------------------------------------------------------------------------------------------------------------|
 
-# | Scale data |-------------------------------------------------------------------------------------------------------|
-from data.treatment.time_amount_scale import ScaleTimeAndAmount
-df: pdDataframe = ScaleTimeAndAmount(df).scale()
-# |--------------------------------------------------------------------------------------------------------------------|
+# # | Scale data |-------------------------------------------------------------------------------------------------------|
+# from data.treatment.time_amount_scale import ScaleTimeAndAmount
+# df: pdDataframe = ScaleTimeAndAmount(df).scale()
+# # |--------------------------------------------------------------------------------------------------------------------|
 
 # # | Split in Training and Test dataframe |-----------------------------------------------------------------------------|
 # from data.treatment.split_train_test import SplitTrainTest
@@ -54,5 +54,8 @@ random_under_sampling: RandomUnderSampling = RandomUnderSampling(df)
 # correlation_matrix_graph.show()
 # # |--------------------------------------------------------------------------------------------------------------------|
 
-from data.analysis.graph.corr_pos_neg_boxplot import CorrBoxPlot
-CorrBoxPlot(random_under_sampling.balanced_df).show()
+# from data.analysis.graph.corr_pos_neg_boxplot import CorrBoxPlot
+# CorrBoxPlot(random_under_sampling.balanced_df).show()
+
+from data.analysis.graph.all_dist_plots import AllDistPlots
+AllDistPlots(random_under_sampling.balanced_df)
