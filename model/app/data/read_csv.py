@@ -24,6 +24,7 @@ class ReadCSV(object):
         """
         self.path_: PosixPath = path_
         self._read()
+        self._info()
         
     def _read(self) -> None:
         """
@@ -32,6 +33,10 @@ class ReadCSV(object):
         genlog.report("reading...", f"read {self.path_}")
         self.df: pdDataframe = pd.read_csv(self.path_)
         genlog.report(True, f"read {self.path_}")
+    
+    def _info(self) -> None:
+        genlog.report("debug", f"Dimension: {len(self.df.columns)}")
+        genlog.report("debug", f"Samples: {len(self.df[self.df.columns[0]])}")
     
     @property
     def dataframe(self) -> pdDataframe:

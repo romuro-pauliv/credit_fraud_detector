@@ -7,6 +7,8 @@
 # | Imports |----------------------------------------------------------------------------------------------------------|
 from pandas.core.frame import DataFrame as pdDataframe
 
+from theme.romuro import theme_romuro, MEDIUM_WHITE, ROMURO_BLUE, MEDIUM_DARK
+
 import seaborn as sns
 import matplotlib.pyplot as plt
 # |--------------------------------------------------------------------------------------------------------------------|
@@ -27,13 +29,19 @@ class CorrelationMatrixGraph(object):
     
     def _df_corr(self) -> None:
         fig, ax = plt.subplots(1, 1)
-        sns.heatmap(self.df.corr(), cmap="inferno", annot_kws={"size": 10}, ax=ax)
-        ax.set_title("Unbalanced Correlation Matrix", fontsize=14)
-    
+        sns.heatmap(self.df.corr(),
+                    cmap=sns.diverging_palette(0, h_pos=169.36, center="dark", as_cmap=True),
+                    annot_kws={"size": 10}, ax=ax)
+        theme_romuro(ax, fig, None, None, "Unbalanced Correlation Matrix")
+        
+        
     def _new_df_corr(self) -> None:
         fig, ax = plt.subplots(1, 1)
-        sns.heatmap(self.new_df.corr(), cmap="inferno", annot_kws={"size": 10}, ax=ax)
-        ax.set_title("Balanced Correlation Matrix", fontsize=14)
+    
+        sns.heatmap(self.new_df.corr(),
+                    cmap=sns.diverging_palette(0, h_pos=169.36, center="dark", as_cmap=True),
+                    annot_kws={"size": 10}, ax=ax)
+        theme_romuro(ax, fig, None, None, "Balanced Correlation Matrix")
     
     def show(self) -> None:
         self._df_corr()

@@ -11,6 +11,7 @@ import matplotlib.pyplot as plt
 
 from log.genlog import genlog
 from config.config_files import configfiles
+from theme.romuro import theme_romuro, ROMURO_BLUE
 
 from pandas.core.frame import DataFrame as pdDataframe
 # |--------------------------------------------------------------------------------------------------------------------|
@@ -41,22 +42,22 @@ class TimeAmountDist(object):
         Creates the Transaction Amount graph
         """
         fig, ax = plt.subplots(1, 1)
-        sns.histplot(self.amount_val, ax=ax, color="r")
-        ax.set_title('Distribution of Transaction Amount')
-        ax.set_xlim([min(self.amount_val), max(self.amount_val)/60])
+        
+        sns.histplot(x=self.amount_val, kde=True, ax=ax, color=ROMURO_BLUE)
+        ax.set_xlim([min(self.amount_val), max(self.amount_val)/200])
+        theme_romuro(ax, fig, "amount", "count", "Distribution of Transaction Amount")
         genlog.report(True, "Created TimeAmountDist Transaction Amount Graph")
-        ax.set_xlabel("Amount")
         
     def graph_transaction_time(self) -> None:
         """
         Creates the Transaction Time graph
         """
         fig, ax = plt.subplots(1, 1)
-        sns.histplot(self.time_val, ax=ax, color="b")
-        ax.set_title("Distribution of Transaction Time")
+        
+        sns.histplot(self.time_val, ax=ax, kde=True, color=ROMURO_BLUE)
         ax.set_xlim([min(self.time_val), max(self.time_val)])
+        theme_romuro(ax, fig, "time", "count", "Distribution of Transaction Time")
         genlog.report(True, "Created TimeAmountDist Transaction Time Graph")
-        ax.set_xlabel("Time (s)")
     
     def graph_corr_time_amount(self) -> None:
         """
@@ -68,8 +69,6 @@ class TimeAmountDist(object):
                       ylim=(min(self.amount_val), max(self.amount_val)/10),
                       color="b", height=7, ax=ax, s=1)
         genlog.report(True, "Created TimeAmountDist Correlation Time x Amount")
-        ax.set_ylabel("Amount")
-        ax.set_xlabel("Time (s)")
                 
     def show(self) -> None:
         """
