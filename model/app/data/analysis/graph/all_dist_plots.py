@@ -5,16 +5,18 @@
 # |--------------------------------------------------------------------------------------------------------------------|
 
 # | Imports |----------------------------------------------------------------------------------------------------------|
-from config.config_files import configfiles
-from log.genlog import genlog
+from config.config_files    import configfiles
+from log.genlog             import genlog
+from theme.romuro           import theme_romuro, ROMURO_BLUE, ROMURO_RED
 
-import seaborn as sns
-import matplotlib.pyplot as plt
+import seaborn              as sns
+import matplotlib.pyplot    as plt
 
-from pandas.core.frame import DataFrame as pdDataframe
-from pandas.core.series import Series as pdSeries
-from pandas.core.indexes.base import Index as pdIndex
-from matplotlib.axes import _axes
+from pandas.core.frame          import DataFrame as pdDataframe
+from pandas.core.series         import Series as pdSeries
+from pandas.core.indexes.base   import Index as pdIndex
+from matplotlib.axes            import _axes
+from matplotlib.figure          import Figure
 # |--------------------------------------------------------------------------------------------------------------------|
 
 
@@ -50,23 +52,52 @@ class AllDistPlots(object):
                 coor.append((i, j))
         return coor
     
-    def _create_histplot(self, column: str, ax: _axes.Axes) -> None:
+    def _create_histplot(self, column: str, ax: _axes.Axes, fig: Figure) -> None:
+        """
+        Creates a histplot graph
+        Args:
+            column (str): Column name
+            ax (_axes.Axes): axes from matplotlib
+            fig (Figure): figure from matplotlib
+        """
         data: pdSeries = self.df[column]
         fraud: pdSeries = data[self.df[self.clmn_class] == 1]
         n_fraud: pdSeries = data[self.df[self.clmn_class] == 0]
         
-        sns.histplot(x=fraud, color="red", label=column, kde=True, ax=ax)
-        sns.histplot(x=n_fraud, color="skyblue", label=column, kde=True, ax=ax)
+        sns.histplot(x=fraud, color=ROMURO_RED, label=column, kde=True, ax=ax)
+        sns.histplot(x=n_fraud, color=ROMURO_BLUE, label=column, kde=True, ax=ax)
+               
+        theme_romuro(ax, fig, column, f"Density [{column}]", None)
         
         genlog.report(True, f"Generate {column} histplot")
     
     def _gen_graph(self) -> None:
+        """
+        Generates all histplots
+        """
         lines, columns = self._get_lines_columns(len(self.columns))
         coor: list[tuple[int]] = self._generate_coor_js(lines, columns)
         fig, axes = plt.subplots(lines, columns, figsize=(20, 20))
         
         for column, coor in zip(self.columns, coor):
-            self._create_histplot(column, axes[coor[0]][coor[1]])
+            self._create_histplot(column, axes[coor[0]][coor[1]], fig)
         
         plt.show()
         plt.clf()
+    
+    def gen_graph_by_column(self, columns_names: list[str]) -> None:
+        """
+        Generates the graphs based on columns names
+        Args:
+            columns_names (list[str]): Columns names to generate the graphs
+        """
+        lines, columns = self._get_lines_columns(len(columns_names))
+        coor: list[tuple[int]] = self._generate_coor_js(lines, columns)
+        fig, axes = plt.subplots(lines, columns, figsize=(20, 20))
+        
+        for column, coor in zip(columns_names, coor):
+            self._create_histplot(column, axes[coor[0]][coor[1]], fig)
+        
+        plt.show()
+        plt.clf()
+        

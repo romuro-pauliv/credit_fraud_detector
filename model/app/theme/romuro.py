@@ -14,6 +14,7 @@ from config.config_files import configfiles
 MEDIUM_DARK : str = "#191919"
 MEDIUM_WHITE: str = "#D9D9D9"
 ROMURO_BLUE : str = "#3DCAB1"
+ROMURO_RED  : str = "#C9633C"
 
 def theme_romuro(ax: _axes.Axes, fig: Figure, xl: str, yl: str, t: str) -> None:
     ax.set_facecolor(MEDIUM_DARK)

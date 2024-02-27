@@ -5,17 +5,18 @@
 # |--------------------------------------------------------------------------------------------------------------------|
 
 # | Imports |----------------------------------------------------------------------------------------------------------|
-from config.config_files import configfiles
-from log.genlog import genlog
+from config.config_files    import configfiles
+from log.genlog             import genlog
+from theme.romuro           import theme_romuro, ROMURO_BLUE, ROMURO_RED
 
-import matplotlib.pyplot as plt
-import seaborn as sns
+import matplotlib.pyplot    as plt
+import seaborn              as sns
 
-from pandas.core.series import Series as pdSeries
-from pandas.core.frame import DataFrame as pdDataframe
-from pandas.core.indexes.base import Index as pdIndex
-
-from matplotlib.axes import _axes
+from pandas.core.series         import Series       as pdSeries
+from pandas.core.frame          import DataFrame    as pdDataframe
+from pandas.core.indexes.base   import Index        as pdIndex
+from matplotlib.axes            import _axes
+from matplotlib.figure          import Figure
 # |--------------------------------------------------------------------------------------------------------------------|
 
 
@@ -71,12 +72,13 @@ class CorrBoxPlot(object):
         return coor
         
     @staticmethod
-    def _create_boxplot(x: str, y: str, data: pdDataframe, ax: _axes.Axes) -> None:
+    def _create_boxplot(x: str, y: str, data: pdDataframe, ax: _axes.Axes, fig: Figure) -> None:
         """
         Create boxplot
         """
-        sns.boxplot(x=x, y=y, data=data, ax=ax, palette=['blue', "red"])
+        sns.boxplot(x=x, y=y, data=data, ax=ax, palette=[ROMURO_BLUE, ROMURO_RED])
         ax.set_xlabel("Class", fontsize=6)
+        theme_romuro(ax, fig, "Class", None, None)
         genlog.report(True, f"Created ({y}) Boxplot")
     
     def boxplot_graph(self, var_index: pdIndex, corr_type: str) -> None:
@@ -91,9 +93,9 @@ class CorrBoxPlot(object):
             
             for name, coor in zip(var_index, matrix_graph_coor):
                 if len(var_index) >= 4:
-                    self._create_boxplot(self.clmn_class, name, self.df, axes[coor[0]][coor[1]])
+                    self._create_boxplot(self.clmn_class, name, self.df, axes[coor[0]][coor[1]], fig)
                 else:
-                    self._create_boxplot(self.clmn_class, name, self.df, axes[coor[1]])
+                    self._create_boxplot(self.clmn_class, name, self.df, axes[coor[1]], fig)
                 
             fig.subplots_adjust(hspace=0.8, wspace=0.5)
             fig.suptitle(f'Var vs Class {corr_type} Correlation', fontsize=16)
