@@ -7,7 +7,7 @@
 # | Imports |----------------------------------------------------------------------------------------------------------|
 from config.config_files    import configfiles
 from log.genlog             import genlog
-from theme.romuro           import theme_romuro, ROMURO_BLUE, ROMURO_RED
+from theme.romuro           import theme_romuro, ROMURO_BLUE, ROMURO_RED, MEDIUM_WHITE
 
 import matplotlib.pyplot    as plt
 import seaborn              as sns
@@ -76,9 +76,10 @@ class CorrBoxPlot(object):
         """
         Create boxplot
         """
-        sns.boxplot(x=x, y=y, data=data, ax=ax, palette=[ROMURO_BLUE, ROMURO_RED])
+        sns.boxplot(x=x, y=y, data=data, ax=ax, palette=[ROMURO_BLUE, ROMURO_RED],
+                    fill=True, fliersize=0.7, linewidth=0.7, saturation=1)
         ax.set_xlabel("Class", fontsize=6)
-        theme_romuro(ax, fig, "Class", None, None)
+        theme_romuro(ax, fig, "Class", y, None)
         genlog.report(True, f"Created ({y}) Boxplot")
     
     def boxplot_graph(self, var_index: pdIndex, corr_type: str) -> None:
@@ -98,7 +99,7 @@ class CorrBoxPlot(object):
                     self._create_boxplot(self.clmn_class, name, self.df, axes[coor[1]], fig)
                 
             fig.subplots_adjust(hspace=0.8, wspace=0.5)
-            fig.suptitle(f'Var vs Class {corr_type} Correlation', fontsize=16)
+            fig.suptitle(f'Var vs Class {corr_type} Correlation', fontsize=12, color=MEDIUM_WHITE)
         else:
             genlog.report(False, f"No {corr_type} correlation that satisfies ({self.neg_param_corr})")
         
