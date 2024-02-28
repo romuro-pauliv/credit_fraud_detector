@@ -45,8 +45,8 @@ class ScaleTimeAndAmount(RobustScaler):
         """
         Insert the scaled Time and Amount in the dataframe
         """
-        self.df.insert(0, f"Scaled_{self.clmn_time}", self.scaled_time)
-        self.df.insert(1, f"Scaled_{self.clmn_amount}", self.scaled_amount)
+        self.df.insert(0, self.clmn_time, self.scaled_time)
+        self.df.insert(1, self.clmn_amount, self.scaled_amount)
         genlog.report(True, f"Insert scaled ({self.clmn_time}, {self.clmn_amount}) in the dataframe")
         
     def scale(self) -> pdDataframe:
