@@ -70,3 +70,10 @@ scaled_and_balaced_df_without_outliers: pdDataframe = cutoff_outliers.cutoff(["V
 from data.analysis.graph.all_dist_plots import AllDistPlots
 all_dist_plots: AllDistPlots = AllDistPlots(scaled_and_balaced_df_without_outliers)
 # |--------------------------------------------------------------------------------------------------------------------|
+
+# | Dimensionality Reduction |-----------------------------------------------------------------------------------------|
+from data.analysis.dimensionality_reduction_and_clustering import Algo
+DR_algo: Algo = Algo(scaled_and_balaced_df_without_outliers)
+DR_algo.run()
+DR_algo.plot()
+# |--------------------------------------------------------------------------------------------------------------------|
