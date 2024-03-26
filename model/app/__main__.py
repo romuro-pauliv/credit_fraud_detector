@@ -17,19 +17,19 @@ df: pdDataframe = read_csv.dataframe
 # |--------------------------------------------------------------------------------------------------------------------|
 
 # | CSV infos |--------------------------------------------------------------------------------------------------------|
-from data.analysis.csv_info import CSVInfo
-csv_info: CSVInfo = CSVInfo(df)
-csv_info.head()
-csv_info.describe()
-csv_info.null_values()
-csv_info.columns()
-csv_info.frauds_count()
+# from data.analysis.csv_info import CSVInfo
+# csv_info: CSVInfo = CSVInfo(df)
+# csv_info.head()
+# csv_info.describe()
+# csv_info.null_values()
+# csv_info.columns()
+# csv_info.frauds_count()
 # |--------------------------------------------------------------------------------------------------------------------|
 
 # | Distribution graphs |----------------------------------------------------------------------------------------------|
-from data.analysis.graph.time_and_amount_dist import TimeAmountDist
-time_amount_dist: TimeAmountDist = TimeAmountDist(df)
-time_amount_dist.show()
+# from data.analysis.graph.time_and_amount_dist import TimeAmountDist
+# time_amount_dist: TimeAmountDist = TimeAmountDist(df)
+# time_amount_dist.show()
 # |--------------------------------------------------------------------------------------------------------------------|
 
 # | Scale data |-------------------------------------------------------------------------------------------------------|
@@ -50,14 +50,14 @@ scaled_and_balanced_df: pdDataframe = random_under_sampling.balanced_df
 # |--------------------------------------------------------------------------------------------------------------------|
 
 # | Correlation Graph |------------------------------------------------------------------------------------------------|
-from data.analysis.graph.correlation_matrix_dataframe import CorrelationMatrixGraph
-correlation_matrix_graph: CorrelationMatrixGraph = CorrelationMatrixGraph(scaled_df, scaled_and_balanced_df)
-correlation_matrix_graph.show()
+# from data.analysis.graph.correlation_matrix_dataframe import CorrelationMatrixGraph
+# correlation_matrix_graph: CorrelationMatrixGraph = CorrelationMatrixGraph(scaled_df, scaled_and_balanced_df)
+# correlation_matrix_graph.show()
 # |--------------------------------------------------------------------------------------------------------------------|
 
 # | Boxplot Graph |----------------------------------------------------------------------------------------------------|
-from data.analysis.graph.corr_pos_neg_boxplot import CorrBoxPlot
-CorrBoxPlot(scaled_and_balanced_df).show()
+# from data.analysis.graph.corr_pos_neg_boxplot import CorrBoxPlot
+# CorrBoxPlot(scaled_and_balanced_df).show()
 # |--------------------------------------------------------------------------------------------------------------------|
 
 # | Cutoff Ouliers |---------------------------------------------------------------------------------------------------|
@@ -67,8 +67,8 @@ scaled_and_balaced_df_without_outliers: pdDataframe = cutoff_outliers.cutoff(["V
 # |--------------------------------------------------------------------------------------------------------------------|
 
 # | Distribution Graph |-----------------------------------------------------------------------------------------------|
-from data.analysis.graph.all_dist_plots import AllDistPlots
-all_dist_plots: AllDistPlots = AllDistPlots(scaled_and_balaced_df_without_outliers)
+# from data.analysis.graph.all_dist_plots import AllDistPlots
+# all_dist_plots: AllDistPlots = AllDistPlots(scaled_and_balaced_df_without_outliers)
 # |--------------------------------------------------------------------------------------------------------------------|
 
 # | Dimensionality Reduction |-----------------------------------------------------------------------------------------|

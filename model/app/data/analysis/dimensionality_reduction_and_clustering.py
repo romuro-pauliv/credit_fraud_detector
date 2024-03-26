@@ -8,7 +8,7 @@
 from config.config_files import configfiles
 from log.genlog import genlog
 
-from data.analysis.graph.DR import DR_graph
+from data.analysis.graph.DR import DR_graph, DR3D_graph
 
 import numpy as np
 from time import time
@@ -32,7 +32,8 @@ class Algo(object):
     
         self._get_XY()
         
-        self.graph: DR_graph = DR_graph(self.Y)
+        self.graph  : DR_graph = DR_graph(self.Y)
+        self.graph3d: DR3D_graph = DR3D_graph(self.Y)
     
     def _get_XY(self) -> None:
         """
@@ -69,10 +70,21 @@ class Algo(object):
         genlog.report("DEBUG", f"SVD Algorithm: {round(time()-a, 4)}s")
         self.graph.graph(self.X_SVD, 2, "Truncated SVD")
     
+    def TSNE_3D(self) -> np.ndarray:
+        """
+        Get T Distributed Stochastic Neighbor Embbeding in 3 components
+        """
+        a: float = time()
+        self.X_TSNE3D: np.ndarray = TSNE(n_components=3, random_state=42).fit_transform(self.X.values)
+        genlog.report("DEBUG", f"TSNE 3D Algorithm:{round(time()-a, 4)}s")
+        self.graph3d.graph(self.X_TSNE3D, "t-SNE 3D")
+    
     def run(self) -> None:
         self.TSNE()
         self.PCA()
         self.SVD()
-    
+        self.TSNE_3D()
+         
     def plot(self) -> None:
         self.graph.show()
+        self.graph3d.show()
