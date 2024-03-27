@@ -81,5 +81,5 @@ scaled_and_balaced_df_without_outliers: pdDataframe = cutoff_outliers.cutoff(["V
 
 # | MODELS |-----------------------------------------------------------------------------------------------------------|
 from models.classifiers import ClassifierModels
-ClassifierModels(scaled_and_balaced_df_without_outliers)
+ClassifierModels(scaled_and_balaced_df_without_outliers).run_optimized()
 # |--------------------------------------------------------------------------------------------------------------------|
