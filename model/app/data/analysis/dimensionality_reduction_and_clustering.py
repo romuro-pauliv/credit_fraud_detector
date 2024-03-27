@@ -8,7 +8,7 @@
 from config.config_files import configfiles
 from log.genlog import genlog
 
-from data.analysis.graph.DR import DR_graph, DR3D_graph
+from graph.DR import DR_graph, DR3D_graph
 
 import numpy as np
 from time import time

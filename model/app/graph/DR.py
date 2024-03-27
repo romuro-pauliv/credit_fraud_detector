@@ -8,7 +8,6 @@
 from theme.romuro import theme_romuro, ROMURO_RED, ROMURO_BLUE
 
 import matplotlib.pyplot as plt
-import matplotlib.patches as mpatches
 import numpy as np
 
 from pandas.core.series import Series as pdSeries
