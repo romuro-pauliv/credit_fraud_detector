@@ -78,8 +78,15 @@ scaled_and_balaced_df_without_outliers: pdDataframe = cutoff_outliers.cutoff(["V
 # DR_algo.plot()
 # |--------------------------------------------------------------------------------------------------------------------|
 
-
 # | MODELS |-----------------------------------------------------------------------------------------------------------|
 from models.classifiers import ClassifierModels
-ClassifierModels(scaled_and_balaced_df_without_outliers).run_optimized()
+classifier_models: ClassifierModels = ClassifierModels(scaled_and_balanced_df)
+# classifier_models.run_brute()
+# classifier_models.run_optimized()
+# |--------------------------------------------------------------------------------------------------------------------|
+
+
+# | Near Miss Algorithm |----------------------------------------------------------------------------------------------|
+from data.treatment.nearmiss import NearMissAlgorithm
+NearMissAlgorithm(scaled_and_balaced_df_without_outliers)
 # |--------------------------------------------------------------------------------------------------------------------|
