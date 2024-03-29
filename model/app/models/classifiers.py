@@ -5,20 +5,21 @@
 # |--------------------------------------------------------------------------------------------------------------------|
 
 # | Imports |----------------------------------------------------------------------------------------------------------|
-from config.config_files import configfiles
-from log.genlog import genlog
+from graph.classifiers_learn_curve  import LearningCurveGraph
+from config.config_files            import configfiles
+from log.genlog                     import genlog
 
 import numpy as np
 
 from sklearn.model_selection import train_test_split, cross_val_score, GridSearchCV
 
-from sklearn.linear_model import LogisticRegression
-from sklearn.svm import SVC
-from sklearn.neighbors import KNeighborsClassifier
-from sklearn.tree import DecisionTreeClassifier
+from sklearn.linear_model   import LogisticRegression
+from sklearn.svm            import SVC
+from sklearn.neighbors      import KNeighborsClassifier
+from sklearn.tree           import DecisionTreeClassifier
 
-from pandas.core.frame  import DataFrame as pdDataframe
-from pandas.core.series import Series as pdSeries
+from pandas.core.frame  import DataFrame    as pdDataframe
+from pandas.core.series import Series       as pdSeries
 
 from typing import Any
 # |--------------------------------------------------------------------------------------------------------------------|
@@ -116,13 +117,22 @@ class ClassifierModels(object):
         Args:
             classifiers (list): A list of classifiers object from sklearn
         """
+        self.models: list[Any] = []
         for n, algorithm in enumerate(classifiers):
             algorithm.fit(self.X_train, self.Y_train) if fit is True else None
             training_score: np.ndarray = cross_val_score(algorithm, self.X_train, self.Y_train, cv=5)
+            self.models.append(algorithm)
+            
             genlog.report(
                 True,
                 f"Classifier Model: {self.classifiers[n].__class__.__name__} | {round(training_score.mean(), 4) * 100}%"
             )
+        self.show_plot()
+    
+    def show_plot(self) -> None:
+        learning_curve_graph: LearningCurveGraph = LearningCurveGraph(self.X_train, self.Y_train)
+        learning_curve_graph.post_models(self.models)
+        learning_curve_graph.show()
     
     def run_brute(self) -> None:
         self._define_classifiers()
