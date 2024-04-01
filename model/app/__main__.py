@@ -80,7 +80,7 @@ scaled_and_balaced_df_without_outliers: pdDataframe = cutoff_outliers.cutoff(["V
 
 # | MODELS |-----------------------------------------------------------------------------------------------------------|
 from models.classifiers import ClassifierModels
-classifier_models: ClassifierModels = ClassifierModels(scaled_and_balanced_df)
+classifier_models: ClassifierModels = ClassifierModels(scaled_and_balaced_df_without_outliers)
 classifier_models.run_brute()
 classifier_models.run_optimized()
 # |--------------------------------------------------------------------------------------------------------------------|

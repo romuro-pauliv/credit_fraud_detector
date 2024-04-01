@@ -21,31 +21,16 @@ from typing import Any
 
 
 class LearningCurveGraph(object):
-    def __init__(self, X: np.ndarray, Y: np.ndarray) -> None:
-        """
-        Args:
-            X (np.ndarray): X values
-            Y (np.ndarray): Y values
-        """
-        self.X: np.ndarray = X
-        self.Y: np.ndarray = Y
-        self._parameters()
+    def __init__(self) -> None:
+        pass
         
-    def _parameters(self) -> None:
-        """
-        Parameters to learning_curve function
-        """
-        self.cv: ShuffleSplit = ShuffleSplit(100, test_size=0.2, random_state=42)
-        self.n_jobs: int = 4
-        self.train_size_param: np.ndarray = np.linspace(0.1, 1, 20)
-        
-    def post_models(self, models: list[Any]) -> None:
+    def post_models(self, models_data: list[list[np.ndarray, str]]) -> None:
         """
         Define the models list
         Args:
             models (list[Any]): models list
         """
-        self.models_list: list[Any] = models
+        self.models_data_list: list[list[np.ndarray, str]] = models_data
     
     def _define_plot(self) -> tuple[Figure, Axes]:
         """
@@ -79,19 +64,12 @@ class LearningCurveGraph(object):
             train_size, test_score_mean - test_score_std, test_score_mean + test_score_std,
             alpha=0.1, color=ROMURO_BLUE
         )
-        graph[1].set_xlabel("Training size (m)")
+        graph[1].set_xlabel("Training size (k)")
         graph[1].set_ylabel("Score")
         graph[1].set_title(t)
         
-    
-    def _estimator_data(self, model: Any) -> None:
-        train_size, train_score, test_score = learning_curve(
-            model, self.X, self.Y, cv=self.cv, n_jobs=self.n_jobs, train_sizes=self.train_size_param
-        )
-        self.define_data_plot(train_size, train_score, test_score, model.__class__.__name__)
-        
     def show(self) -> None:
-        for model in self.models_list:
-            self._estimator_data(model)
+        for model_data in self.models_data_list:
+            self.define_data_plot(model_data[0], model_data[1], model_data[2], model_data[3])
         plt.show()
         plt.clf()

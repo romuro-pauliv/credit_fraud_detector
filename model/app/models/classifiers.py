@@ -11,7 +11,7 @@ from log.genlog                     import genlog
 
 import numpy as np
 
-from sklearn.model_selection import train_test_split, cross_val_score, GridSearchCV
+from sklearn.model_selection import train_test_split, cross_val_score, GridSearchCV, learning_curve, ShuffleSplit
 
 from sklearn.linear_model   import LogisticRegression
 from sklearn.svm            import SVC
@@ -42,6 +42,8 @@ class ClassifierModels(object):
 
         self._split_train_test()
         self._define_classifiers()
+        
+        self.learning_curve_graph: LearningCurveGraph = LearningCurveGraph()
         
     def _split_train_test(self) -> None:
         """
@@ -127,19 +129,40 @@ class ClassifierModels(object):
                 True,
                 f"Classifier Model: {self.classifiers[n].__class__.__name__} | {round(training_score.mean(), 4) * 100}%"
             )
-        self.show_plot()
     
-    def show_plot(self) -> None:
-        learning_curve_graph: LearningCurveGraph = LearningCurveGraph(self.X_train, self.Y_train)
-        learning_curve_graph.post_models(self.models)
-        learning_curve_graph.show()
-    
+    def _learing_curve(self, model: Any) -> list[np.ndarray, str]:
+        """
+        Determines cross-validated training and test scores for different training set sizes.
+
+        A cross-validation generator splits the whole dataset k times in training and test data. Subsets of the training
+        set with varying sizes will be used to train the estimator and a score for each training subset size and the 
+        test set will be computed. Afterwards, the scores will be averaged over all k runs for each training subset size.
+        """
+        cv              : ShuffleSplit = ShuffleSplit(100, test_size=0.2, random_state=42)
+        n_jobs          : int = -1
+        train_size_param: np.ndarray = np.linspace(0.1, 1, 20)
+        
+        train_size, train_score, test_score = learning_curve(
+            model, self.X_train, self.Y_train, cv=cv, n_jobs=n_jobs, train_sizes=train_size_param 
+        )
+        
+        return train_size, train_score, test_score, model.__class__.__name__
+        
+    def run_learning_curve(self) -> None:
+        model_data_list: list[list[np.ndarray, str]] = []
+        for model in self.models:
+            model_data_list.append(self._learing_curve(model))
+
+        self.learning_curve_graph.post_models(model_data_list)
+        self.learning_curve_graph.show()
+        
     def run_brute(self) -> None:
         self._define_classifiers()
         self.train(self.classifiers, True)
+        self.run_learning_curve()
     
     def run_optimized(self) -> None:
         self._define_classifiers()
         self._apply_optimizer()
         self.train(self.classifiers_optimized, False)
-    
+        self.run_learning_curve()
