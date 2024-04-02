@@ -35,14 +35,14 @@ class CSVInfo(object):
         Print head of csv values
         """
         print(self.df.head())
-        genlog.report("debug", ".head()")
+        genlog.report("debug", "info: .head()")
     
     def describe(self) -> None:
         """
         Describe the csv values
         """
         print(self.df.describe())
-        genlog.report("debug", ".describe()")
+        genlog.report("debug", "info: .describe()")
     
     def null_values(self) -> None:
         """
@@ -50,16 +50,16 @@ class CSVInfo(object):
         """
         null_values: int = self.df.isnull().sum().max()
         if null_values == 0:
-            genlog.report(True, f"{null_values} null values in Dataframe")
+            genlog.report(True, f"info: {null_values} null values in Dataframe")
         else:
-            genlog.report(False, f"{null_values} null values in Dataframe")
+            genlog.report(False, f"info: {null_values} null values in Dataframe")
     
     def columns(self) -> pdIndex:
         """
         Get the columns names
         """
         print(self.df.columns)
-        genlog.report("debug", "csv columns")
+        genlog.report("debug", "info: csv columns")
         return self.df.columns
 
     def frauds_count(self) -> None:
@@ -70,5 +70,5 @@ class CSVInfo(object):
             self.df[self.clmn_class].value_counts()[index]/len(self.df) * 100, 2
         )
         
-        genlog.report("debug", f"No Frauds {count_func(0)}% of the dataset")
-        genlog.report("debug", f"Frauds {count_func(1)}% of the dataset")
+        genlog.report("debug", f"info: No Frauds {count_func(0)}% of the dataset")
+        genlog.report("debug", f"info: Frauds {count_func(1)}% of the dataset")

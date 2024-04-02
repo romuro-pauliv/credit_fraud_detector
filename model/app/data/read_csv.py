@@ -35,8 +35,8 @@ class ReadCSV(object):
         genlog.report(True, f"read {self.path_}")
     
     def _info(self) -> None:
-        genlog.report("debug", f"Dimension: {len(self.df.columns)}")
-        genlog.report("debug", f"Samples: {len(self.df[self.df.columns[0]])}")
+        genlog.report("debug", f"read: Dimension: {len(self.df.columns)}")
+        genlog.report("debug", f"read: Samples: {len(self.df[self.df.columns[0]])}")
     
     @property
     def dataframe(self) -> pdDataframe:
