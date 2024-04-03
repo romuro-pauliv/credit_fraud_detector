@@ -45,7 +45,7 @@ class ConfigFiles(object):
             config: configparser.ConfigParser = configparser.ConfigParser()
             config.read(Path(self.config_path, ini_filepath))
             self.ini[name] = config
-            genlog.report(True, f"read {ini_filepath}")
+            genlog.report(True, f"ini: read {ini_filepath}")
     
     @property
     def dot_ini(self) -> dict[str, configparser.ConfigParser]:

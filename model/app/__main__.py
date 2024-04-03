@@ -2,35 +2,28 @@ import warnings
 warnings.filterwarnings("ignore")
 
 # | Imports |----------------------------------------------------------------------------------------------------------|
-from pandas.core.frame      import DataFrame as pdDataframe
-from pathlib                import PosixPath
+from pandas.core.frame          import DataFrame as pdDataframe
+from pathlib                    import PosixPath
 
-from func.download_data     import download_data
-from func.read_data         import read_data
-from func.data_info         import data_info
-from func.time_amount_graph import time_amount_graph
-from func.scale_time_amount import scale_time_amount_features
+from func.download_data         import download_data
+from func.read_data             import read_data
+from func.data_info             import data_info
+from func.time_amount_graph     import time_amount_graph
+from func.scale_time_amount     import scale_time_amount_features
+from func.split_train_test      import split_train_test
+from func.random_undersampling  import random_undersampling
 # |--------------------------------------------------------------------------------------------------------------------|
 
-csv_path    : PosixPath     = download_data()
-df          : pdDataframe   = read_data(csv_path)
+csv_path            : PosixPath     = download_data()
+df                  : pdDataframe   = read_data(csv_path)
 
 data_info(df)
 time_amount_graph(df)
 
-df_scaled   : pdDataframe   = scale_time_amount_features(df)
+df_scaled           : pdDataframe   = scale_time_amount_features(df)
+df_scaled_balanced  : pdDataframe   = random_undersampling(df_scaled)
 
-# | Split in Training and Test dataframe |-----------------------------------------------------------------------------|
-# from data.treatment.split_train_test import SplitTrainTest
-# split_train_test: SplitTrainTest = SplitTrainTest(scaled_df)
-# split_train_test.split()
-# |--------------------------------------------------------------------------------------------------------------------|
-
-# | Random Under Sampling |--------------------------------------------------------------------------------------------|
-# from data.treatment.random_under_sampling import RandomUnderSampling
-# random_under_sampling: RandomUnderSampling = RandomUnderSampling(scaled_df)
-# scaled_and_balanced_df: pdDataframe = random_under_sampling.balanced_df
-# |--------------------------------------------------------------------------------------------------------------------|
+# split_train_test(df_scaled)
 
 # | Correlation Graph |------------------------------------------------------------------------------------------------|
 # from graph.correlation_matrix_dataframe import CorrelationMatrixGraph

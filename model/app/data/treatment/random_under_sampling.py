@@ -34,7 +34,7 @@ class RandomUnderSampling(object):
         Shuffle the data
         """
         self.df: pdDataframe = self.df.sample(frac=1)
-        genlog.report(True, "Random Sample [frac=1]")
+        genlog.report(True, "random udersampling: Random Sample [frac=1]")
     
     def _split_balanced_fraud(self) -> None:
         """
@@ -42,7 +42,7 @@ class RandomUnderSampling(object):
         """
         self.fraud_df   : pdDataframe = self.df.loc[self.df[self.clmn_class] == 1]
         self.no_fraud_df: pdDataframe = self.df.loc[self.df[self.clmn_class] == 0][:len(self.fraud_df)]
-        genlog.report(True, f"Split in [fraud: {len(self.fraud_df)}] [no-fraud: {len(self.no_fraud_df)}]")
+        genlog.report(True, f"random udersampling: Split in [fraud: {len(self.fraud_df)}] [no-fraud: {len(self.no_fraud_df)}]")
         
     def _concat(self) -> None:
         """
@@ -50,9 +50,8 @@ class RandomUnderSampling(object):
         """
         df_concat: pdDataframe = pd.concat([self.fraud_df, self.no_fraud_df])
         self.new_df: pdDataframe = df_concat.sample(frac=1)
-        genlog.report(True, "Concat fraud and no-fraud")
-        genlog.report(True, "Random Sample [frac=1]")
+        genlog.report(True, "random udersampling: Concat fraud and no-fraud")
+        genlog.report(True, "random udersampling: Random Sample [frac=1]")
         
-    @property
     def balanced_df(self) -> pdDataframe:
         return self.new_df

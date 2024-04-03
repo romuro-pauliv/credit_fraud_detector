@@ -59,6 +59,4 @@ class ScaleTimeAndAmount(RobustScaler):
         self._drop_old_columns()
         self._insert_scaled_in_df()
         
-        print(self.df.head())
-        
         return self.df

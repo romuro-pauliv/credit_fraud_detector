@@ -36,7 +36,7 @@ class SplitTrainTest(object):
         """
         self.X: pdDataframe = self.df.drop(self.clmn_class, axis=1)
         self.Y: pdSeries = self.df[self.clmn_class]
-        genlog.report(True, "get X and Y")
+        genlog.report(True, "split TT: get X and Y")
         
     def _stratified_k_fold(self) -> None:
         """
@@ -55,7 +55,7 @@ class SplitTrainTest(object):
             A doubt that be occur: Only the last iteration will be used. The function StratifiedKFold generates
             in each iteration a split train/test indexes in 80%/20%. 
             """
-        genlog.report(True, "Split train/test")
+        genlog.report(True, "split TT: Split train/test")
         
     def _ratio_info(self) -> None:
         """
@@ -64,8 +64,8 @@ class SplitTrainTest(object):
         _, train_count_values = np.unique(self.original_Y_train, return_counts=True)
         _, test_count_values = np.unique(self.original_Y_test, return_counts=True)
         
-        genlog.report(True, f"train ratio: {train_count_values/len(self.original_Y_train)}")
-        genlog.report(True, f"test ratio: {test_count_values/len(self.original_Y_test)}")
+        genlog.report(True, f"split TT: train ratio: {train_count_values/len(self.original_Y_train)}")
+        genlog.report(True, f"split TT: test ratio: {test_count_values/len(self.original_Y_test)}")
     
     def split(self) -> None:
         """
@@ -76,10 +76,8 @@ class SplitTrainTest(object):
         self._split()
         self._ratio_info()
     
-    @property
     def train(self) -> tuple[pdDataframe, pdSeries]:
         return self.original_X_train, self.original_Y_train
     
-    @property
     def test(self) -> tuple[pdDataframe, pdSeries]:
         return self.original_X_test, self.original_Y_test

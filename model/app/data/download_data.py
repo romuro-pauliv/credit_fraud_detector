@@ -45,7 +45,7 @@ class DownloadData(object):
         """
         Request data to uri
         """
-        genlog.report("downloading...", f"{self.rsrc_path}/{self.zip_name}")
+        genlog.report("debug", f"download: downloading {self.rsrc_path}/{self.zip_name}")
         self.r: requests.models.Response = requests.get(self.uri)
         if self.r.status_code == 200:
             genlog.report(True, f"{self.rsrc_path}/{self.zip_name}")
@@ -58,7 +58,7 @@ class DownloadData(object):
         """
         with open(self.zip_path, "wb") as file:
             file.write(self.r.content)
-        genlog.report(True, f"save zip {self.zip_path}")
+        genlog.report(True, f"download: save zip {self.zip_path}")
     
     def unzip(self) -> None:
         """
@@ -66,7 +66,7 @@ class DownloadData(object):
         """
         with zipfile.ZipFile(self.zip_path, 'r') as zip_ref:
             zip_ref.extractall(self.csv_path)
-        genlog.report(True, f"unzip {self.zip_path}")
+        genlog.report(True, f"download: unzip {self.zip_path}")
     
     def _check_resources(self) -> None:
         """
@@ -74,7 +74,7 @@ class DownloadData(object):
         """
         if self.resources_dir not in os.listdir(self.app_dir):
             os.mkdir(self.rsrc_path)
-            genlog.report(True, f"created {self.rsrc_path} dir")
+            genlog.report(True, f"download: created {self.rsrc_path} dir")
     
     def download(self) -> PosixPath:
         """
@@ -90,9 +90,9 @@ class DownloadData(object):
             self.unzip()
         else:
             if self.csv_name not in rsrc_files:
-                genlog.report(True, f"{self.zip_path} in cache")
+                genlog.report(True, f"download: {self.zip_path} in cache")
                 self.unzip()
             else:
-                genlog.report(True, "all files in cache")
+                genlog.report(True, "download: all files in cache")
             
         return Path(self.app_dir, self.resources_dir, self.csv_name)

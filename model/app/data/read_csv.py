@@ -30,9 +30,9 @@ class ReadCSV(object):
         """
         Read CSV with pandas
         """
-        genlog.report("reading...", f"read {self.path_}")
+        genlog.report("debug", f"read: reading {self.path_}")
         self.df: pdDataframe = pd.read_csv(self.path_)
-        genlog.report(True, f"read {self.path_}")
+        genlog.report(True, f"read: read {self.path_}")
     
     def _info(self) -> None:
         genlog.report("debug", f"read: Dimension: {len(self.df.columns)}")
