@@ -32,14 +32,14 @@ class ScaleTimeAndAmount(RobustScaler):
         """
         self.scaled_time  : np.ndarray  = self.rob_scaler.fit_transform(self.df[self.clmn_time].values.reshape(-1, 1))
         self.scaled_amount: np.ndarray  = self.rob_scaler.fit_transform(self.df[self.clmn_amount].values.reshape(-1, 1))
-        genlog.report(True, f"Scaled ({self.clmn_time}, {self.clmn_amount})")
+        genlog.report(True, f"scale: Scaled ({self.clmn_time}, {self.clmn_amount})")
         
     def _drop_old_columns(self) -> None:
         """
         Drop the no-scaled Time and Amount from dataframe
         """
         self.df.drop([self.clmn_amount, self.clmn_time], axis=1, inplace=True)
-        genlog.report(True, f"Drop no-scale ({self.clmn_time}, {self.clmn_amount}) from dataframe")
+        genlog.report(True, f"scale: Drop no-scale ({self.clmn_time}, {self.clmn_amount}) from dataframe")
         
     def _insert_scaled_in_df(self) -> None:
         """
@@ -47,7 +47,7 @@ class ScaleTimeAndAmount(RobustScaler):
         """
         self.df.insert(0, self.clmn_time, self.scaled_time)
         self.df.insert(1, self.clmn_amount, self.scaled_amount)
-        genlog.report(True, f"Insert scaled ({self.clmn_time}, {self.clmn_amount}) in the dataframe")
+        genlog.report(True, f"scale: Insert scaled ({self.clmn_time}, {self.clmn_amount}) in the dataframe")
         
     def scale(self) -> pdDataframe:
         """

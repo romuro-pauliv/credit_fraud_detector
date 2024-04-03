@@ -33,7 +33,7 @@ class TimeAmountDist(object):
         """
         Get the amount and time values from dataset
         """
-        genlog.report("debug", "Convert [Amount, Time] to ndarray")
+        genlog.report("debug", "graph: Convert [Amount, Time] to ndarray")
         self.amount_val : np.ndarray    = self.df[self.clmn_amount].values
         self.time_val   : np.ndarray    = self.df[self.clmn_time].values
         
@@ -46,7 +46,7 @@ class TimeAmountDist(object):
         sns.histplot(x=self.amount_val, kde=True, ax=ax, color=ROMURO_BLUE)
         ax.set_xlim([min(self.amount_val), max(self.amount_val)/200])
         theme_romuro(ax, fig, "amount", "count", "Distribution of Transaction Amount")
-        genlog.report(True, "Created TimeAmountDist Transaction Amount Graph")
+        genlog.report(True, "graph: Created TimeAmountDist Transaction Amount Graph")
         
     def graph_transaction_time(self) -> None:
         """
@@ -57,7 +57,7 @@ class TimeAmountDist(object):
         sns.histplot(self.time_val, ax=ax, kde=True, color=ROMURO_BLUE)
         ax.set_xlim([min(self.time_val), max(self.time_val)])
         theme_romuro(ax, fig, "time", "count", "Distribution of Transaction Time")
-        genlog.report(True, "Created TimeAmountDist Transaction Time Graph")
+        genlog.report(True, "graph: Created TimeAmountDist Transaction Time Graph")
     
     def graph_corr_time_amount(self) -> None:
         """
@@ -68,7 +68,8 @@ class TimeAmountDist(object):
                       xlim=(min(self.time_val), max(self.time_val)),
                       ylim=(min(self.amount_val), max(self.amount_val)/10),
                       color="b", height=7, ax=ax, s=1)
-        genlog.report(True, "Created TimeAmountDist Correlation Time x Amount")
+        theme_romuro(ax, fig, "time", "amount", "Time x Amount")
+        genlog.report(True, "graph: Created TimeAmountDist Correlation Time x Amount")
                 
     def show(self) -> None:
         """
@@ -82,4 +83,4 @@ class TimeAmountDist(object):
         
         plt.show()
         plt.clf()
-        genlog.report(True, "quit TimeAmountDist Plot")
+        genlog.report(True, "graph: quit TimeAmountDist Plot")

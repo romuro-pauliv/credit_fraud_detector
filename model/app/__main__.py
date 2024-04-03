@@ -1,40 +1,24 @@
-from pandas.core.frame import DataFrame as pdDataframe
-from pathlib import PosixPath
-
-from argparse_list import args
-
 import warnings
 warnings.filterwarnings("ignore")
 
-from func.download_data import download_data
-from func.read_data     import read_data
+# | Imports |----------------------------------------------------------------------------------------------------------|
+from pandas.core.frame      import DataFrame as pdDataframe
+from pathlib                import PosixPath
 
-csv_path: PosixPath     = download_data()
-df      : pdDataframe   = read_data(csv_path)
-
-
-# | CSV infos |--------------------------------------------------------------------------------------------------------|
-if args.info == True or args.graphs == True:
-    from data.info.csv_info import CSVInfo
-    csv_info: CSVInfo = CSVInfo(df)
-    csv_info.head()
-    csv_info.describe()
-    csv_info.null_values()
-    csv_info.columns()
-    csv_info.frauds_count()
+from func.download_data     import download_data
+from func.read_data         import read_data
+from func.data_info         import data_info
+from func.time_amount_graph import time_amount_graph
+from func.scale_time_amount import scale_time_amount_features
 # |--------------------------------------------------------------------------------------------------------------------|
 
-# | Distribution graphs |----------------------------------------------------------------------------------------------|
-if args.time_amount_graph == True or args.graphs == True:
-    from graph.time_and_amount_dist import TimeAmountDist
-    time_amount_dist: TimeAmountDist = TimeAmountDist(df)
-    time_amount_dist.show()
-# |--------------------------------------------------------------------------------------------------------------------|
+csv_path    : PosixPath     = download_data()
+df          : pdDataframe   = read_data(csv_path)
 
-# | Scale data |-------------------------------------------------------------------------------------------------------|
-# from data.treatment.time_amount_scale import ScaleTimeAndAmount
-# scaled_df: pdDataframe = ScaleTimeAndAmount(df).scale()
-# |--------------------------------------------------------------------------------------------------------------------|
+data_info(df)
+time_amount_graph(df)
+
+df_scaled   : pdDataframe   = scale_time_amount_features(df)
 
 # | Split in Training and Test dataframe |-----------------------------------------------------------------------------|
 # from data.treatment.split_train_test import SplitTrainTest
