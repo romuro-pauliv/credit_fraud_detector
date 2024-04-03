@@ -69,7 +69,7 @@ class AllDistPlots(object):
                
         theme_romuro(ax, fig, column, f"Density [{column}]", None)
         
-        genlog.report(True, f"Generate {column} histplot")
+        genlog.report(True, f"distgraph: Generate {column} histplot")
     
     def _gen_graph(self) -> None:
         """

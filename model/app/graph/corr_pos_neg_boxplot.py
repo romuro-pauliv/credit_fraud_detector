@@ -101,7 +101,7 @@ class CorrBoxPlot(object):
             fig.subplots_adjust(hspace=0.8, wspace=0.5)
             fig.suptitle(f'Var vs Class {corr_type} Correlation', fontsize=12, color=MEDIUM_WHITE)
         else:
-            genlog.report(False, f"boxplot graphg: No {corr_type} correlation that satisfies ({self.neg_param_corr})")
+            genlog.report(False, f"boxplot graph: No {corr_type} correlation that satisfies ({self.neg_param_corr})")
         
         plt.show()
         plt.clf()

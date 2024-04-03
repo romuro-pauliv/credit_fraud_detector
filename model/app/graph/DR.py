@@ -5,15 +5,15 @@
 # |--------------------------------------------------------------------------------------------------------------------|
 
 # | Import |-----------------------------------------------------------------------------------------------------------|
-from theme.romuro import theme_romuro, ROMURO_RED, ROMURO_BLUE
+from theme.romuro   import theme_romuro, ROMURO_RED, ROMURO_BLUE
+from log.genlog     import genlog
 
-import matplotlib.pyplot as plt
-import numpy as np
+import matplotlib.pyplot    as plt
+import numpy                as np
 
 from pandas.core.series import Series as pdSeries
-
-from matplotlib.figure import Figure
-from matplotlib.axes import Axes
+from matplotlib.figure  import Figure
+from matplotlib.axes    import Axes
 # |--------------------------------------------------------------------------------------------------------------------|
 
 
@@ -61,6 +61,7 @@ class DR_graph(object):
         self.plot[1][column].scatter(n_fraud[0], n_fraud[1], c=ROMURO_BLUE, label="No Fraud", s=0.5)
         self.plot[1][column].scatter(fraud[0], fraud[1], c=ROMURO_RED, label="Fraud", s=0.5)
         self.plot[1][column].set_title(title)
+        genlog.report(True, f"dimension reduction graph: Graph [{column}]")
         
     
     def show(self) -> None:
@@ -123,7 +124,8 @@ class DR3D_graph(object):
         self.ax.zaxis.pane.set_edgecolor('#404040')
         
         self.ax.set_title(title)
-    
+        genlog.report(True, f"dimension reduction graph: Graph 3D")
+        
     def show(self) -> None:
         plt.show()
         plt.clf()

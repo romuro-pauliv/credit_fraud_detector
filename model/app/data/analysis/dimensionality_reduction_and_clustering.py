@@ -48,7 +48,7 @@ class Algo(object):
         """
         a: float = time()
         self.X_TSNE: np.ndarray = TSNE(n_components=2, random_state=42).fit_transform(self.X.values)
-        genlog.report("DEBUG", f"TSNE Algorithm: {round(time()-a, 4)}s")
+        genlog.report("DEBUG", f"dimension reduction: TSNE Algorithm: {round(time()-a, 4)}s")
         self.graph.graph(self.X_TSNE, 0, "t-SNE")
         
     def PCA(self) -> np.ndarray:
@@ -57,7 +57,7 @@ class Algo(object):
         """
         a: float = time()
         self.X_PCA: np.ndarray = PCA(n_components=2, random_state=42).fit_transform(self.X.values)
-        genlog.report("DEBUG", f"PCA Algorithm: {round(time()-a, 4)}s")
+        genlog.report("DEBUG", f"dimension reduction: PCA Algorithm: {round(time()-a, 4)}s")
         self.graph.graph(self.X_PCA, 1, "PCA")
         
     def SVD(self) -> np.ndarray:
@@ -67,7 +67,7 @@ class Algo(object):
         a: float = time()
         self.X_SVD: np.ndarray = TruncatedSVD(
             n_components=2, algorithm="randomized", random_state=42).fit_transform(self.X.values)
-        genlog.report("DEBUG", f"SVD Algorithm: {round(time()-a, 4)}s")
+        genlog.report("DEBUG", f"dimension reduction: SVD Algorithm: {round(time()-a, 4)}s")
         self.graph.graph(self.X_SVD, 2, "Truncated SVD")
     
     def TSNE_3D(self) -> np.ndarray:
@@ -76,7 +76,7 @@ class Algo(object):
         """
         a: float = time()
         self.X_TSNE3D: np.ndarray = TSNE(n_components=3, random_state=42).fit_transform(self.X.values)
-        genlog.report("DEBUG", f"TSNE 3D Algorithm:{round(time()-a, 4)}s")
+        genlog.report("DEBUG", f"dimension reduction: TSNE 3D Algorithm:{round(time()-a, 4)}s")
         self.graph3d.graph(self.X_TSNE3D, "t-SNE 3D")
     
     def run(self) -> None:

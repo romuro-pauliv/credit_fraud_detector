@@ -25,7 +25,7 @@ class Genlog(object):
         """
         state_color: str = Fore.GREEN if state == True else Fore.RED if isinstance(state, bool) else Fore.YELLOW
         state: str = "SUCCESS" if state == True else "FAILED " if isinstance(state, bool) else state
-        state: str = " DEBUG " if state == "debug" else state
+        state: str = " DEBUG " if state.lower() == "debug" else state
         rst: str = Style.RESET_ALL
         print(
             f"{Fore.CYAN}[{datetime.now()}]{rst} [{state_color}{str(state).upper()}{rst}] [{comment}]"

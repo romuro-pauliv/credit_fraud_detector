@@ -15,6 +15,8 @@ from func.random_undersampling  import random_undersampling
 from func.correlation_graph     import correlation_matrix_graph
 from func.boxplot_graph         import boxplot_graph
 from func.cutoff_outliers       import cutoff_outliers
+from func.dist_graph            import dist_graph
+from func.DRA                   import dimensionality_reduction
 # |--------------------------------------------------------------------------------------------------------------------|
 
 csv_path            : PosixPath     = download_data()
@@ -33,17 +35,8 @@ boxplot_graph(df_s_b)
 
 df_s_b_wo           : pdDataframe   = cutoff_outliers(df_s_b)
 
-# | Distribution Graph |-----------------------------------------------------------------------------------------------|
-# from graph.all_dist_plots import AllDistPlots
-# all_dist_plots: AllDistPlots = AllDistPlots(scaled_and_balaced_df_without_outliers)
-# |--------------------------------------------------------------------------------------------------------------------|
-
-# | Dimensionality Reduction Analysis |--------------------------------------------------------------------------------|
-# from data.analysis.dimensionality_reduction_and_clustering import Algo
-# DR_algo: Algo = Algo(scaled_and_balaced_df_without_outliers)
-# DR_algo.run()
-# DR_algo.plot()
-# |--------------------------------------------------------------------------------------------------------------------|
+dist_graph(df_s_b_wo)
+dimensionality_reduction(df_s_b_wo)
 
 # | MODELS |-----------------------------------------------------------------------------------------------------------|
 # from models.classifiers import ClassifierModels
