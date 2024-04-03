@@ -83,7 +83,7 @@ class CutOffOutliers(object):
         self.df: pdDataframe = self.df.drop(
             self.df[(self.df[column] > higher) | (self.df[column] < lower)].index
         )
-        genlog.report("debug", f"Cutoff Outliers: [{column} S:{class_state}]")
+        genlog.report("debug", f"cutoff outliers: cutoff [{column} S:{class_state}]")
     
     def cutoff(self, columns: list[str], class_state: int) -> pdDataframe:
         """
@@ -103,7 +103,7 @@ class CutOffOutliers(object):
             self.df_without_outliers(lower, higher, column, class_state)
         
         genlog.report(True,
-            f"Cutoff Outliers [B: {self.count_df}, A: {len(self.df)}] [Remove: {self.count_df - len(self.df)}]"
+            f"cutoff outliers: [Bef: {self.count_df}, Aft: {len(self.df)}] [Remove: {self.count_df - len(self.df)}]"
         )
         
         return self.df

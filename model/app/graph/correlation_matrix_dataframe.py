@@ -5,12 +5,12 @@
 # |--------------------------------------------------------------------------------------------------------------------|
 
 # | Imports |----------------------------------------------------------------------------------------------------------|
-from pandas.core.frame import DataFrame as pdDataframe
+from pandas.core.frame  import DataFrame as pdDataframe
+from theme.romuro       import theme_romuro
+from log.genlog         import genlog
 
-from theme.romuro import theme_romuro, MEDIUM_WHITE, ROMURO_BLUE, MEDIUM_DARK
-
-import seaborn as sns
-import matplotlib.pyplot as plt
+import seaborn              as sns
+import matplotlib.pyplot    as plt
 # |--------------------------------------------------------------------------------------------------------------------|
 
 
@@ -33,7 +33,7 @@ class CorrelationMatrixGraph(object):
                     cmap=sns.diverging_palette(0, h_pos=169.36, center="dark", as_cmap=True),
                     annot_kws={"size": 10}, ax=ax)
         theme_romuro(ax, fig, None, None, "Unbalanced Correlation Matrix")
-        
+        genlog.report(True, "corr graph: Created Unbalanced Corr Graph")
         
     def _new_df_corr(self) -> None:
         fig, ax = plt.subplots(1, 1)
@@ -42,9 +42,11 @@ class CorrelationMatrixGraph(object):
                     cmap=sns.diverging_palette(0, h_pos=169.36, center="dark", as_cmap=True),
                     annot_kws={"size": 10}, ax=ax)
         theme_romuro(ax, fig, None, None, "Balanced Correlation Matrix")
-    
+        genlog.report(True, "corr graph: Created Balanced Corr Graph")
+        
     def show(self) -> None:
         self._df_corr()
         self._new_df_corr()
         plt.show()
         plt.clf()
+        genlog.report(True, "corr graph: Quit Corr Graph")

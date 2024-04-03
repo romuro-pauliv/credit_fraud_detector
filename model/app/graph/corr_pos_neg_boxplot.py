@@ -80,7 +80,7 @@ class CorrBoxPlot(object):
                     fill=True, fliersize=0.7, linewidth=0.7, saturation=1)
         ax.set_xlabel("Class", fontsize=6)
         theme_romuro(ax, fig, "Class", y, None)
-        genlog.report(True, f"Created ({y}) Boxplot")
+        genlog.report(True, f"boxplot graph: Created ({y}) Boxplot")
     
     def boxplot_graph(self, var_index: pdIndex, corr_type: str) -> None:
         """
@@ -101,7 +101,7 @@ class CorrBoxPlot(object):
             fig.subplots_adjust(hspace=0.8, wspace=0.5)
             fig.suptitle(f'Var vs Class {corr_type} Correlation', fontsize=12, color=MEDIUM_WHITE)
         else:
-            genlog.report(False, f"No {corr_type} correlation that satisfies ({self.neg_param_corr})")
+            genlog.report(False, f"boxplot graphg: No {corr_type} correlation that satisfies ({self.neg_param_corr})")
         
         plt.show()
         plt.clf()

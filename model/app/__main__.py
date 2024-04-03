@@ -12,6 +12,9 @@ from func.time_amount_graph     import time_amount_graph
 from func.scale_time_amount     import scale_time_amount_features
 from func.split_train_test      import split_train_test
 from func.random_undersampling  import random_undersampling
+from func.correlation_graph     import correlation_matrix_graph
+from func.boxplot_graph         import boxplot_graph
+from func.cutoff_outliers       import cutoff_outliers
 # |--------------------------------------------------------------------------------------------------------------------|
 
 csv_path            : PosixPath     = download_data()
@@ -20,27 +23,15 @@ df                  : pdDataframe   = read_data(csv_path)
 data_info(df)
 time_amount_graph(df)
 
-df_scaled           : pdDataframe   = scale_time_amount_features(df)
-df_scaled_balanced  : pdDataframe   = random_undersampling(df_scaled)
+df_s                : pdDataframe   = scale_time_amount_features(df)
+df_s_b              : pdDataframe   = random_undersampling(df_s)
 
 # split_train_test(df_scaled)
 
-# | Correlation Graph |------------------------------------------------------------------------------------------------|
-# from graph.correlation_matrix_dataframe import CorrelationMatrixGraph
-# correlation_matrix_graph: CorrelationMatrixGraph = CorrelationMatrixGraph(scaled_df, scaled_and_balanced_df)
-# correlation_matrix_graph.show()
-# |--------------------------------------------------------------------------------------------------------------------|
+correlation_matrix_graph(df_s, df_s_b)
+boxplot_graph(df_s_b)
 
-# | Boxplot Graph |----------------------------------------------------------------------------------------------------|
-# from graph.corr_pos_neg_boxplot import CorrBoxPlot
-# CorrBoxPlot(scaled_and_balanced_df).show()
-# |--------------------------------------------------------------------------------------------------------------------|
-
-# | Cutoff Ouliers |---------------------------------------------------------------------------------------------------|
-# from data.treatment.cutoff_outliers import CutOffOutliers
-# cutoff_outliers: CutOffOutliers = CutOffOutliers(scaled_and_balanced_df)
-# scaled_and_balaced_df_without_outliers: pdDataframe = cutoff_outliers.cutoff(["V10", "V14", "V12"], 1)
-# |--------------------------------------------------------------------------------------------------------------------|
+df_s_b_wo           : pdDataframe   = cutoff_outliers(df_s_b)
 
 # | Distribution Graph |-----------------------------------------------------------------------------------------------|
 # from graph.all_dist_plots import AllDistPlots
