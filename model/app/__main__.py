@@ -17,6 +17,7 @@ from func.boxplot_graph         import boxplot_graph
 from func.cutoff_outliers       import cutoff_outliers
 from func.dist_graph            import dist_graph
 from func.DRA                   import dimensionality_reduction
+from func.classifiers_model     import classifiers_model
 # |--------------------------------------------------------------------------------------------------------------------|
 
 csv_path            : PosixPath     = download_data()
@@ -38,9 +39,4 @@ df_s_b_wo           : pdDataframe   = cutoff_outliers(df_s_b)
 dist_graph(df_s_b_wo)
 dimensionality_reduction(df_s_b_wo)
 
-# | MODELS |-----------------------------------------------------------------------------------------------------------|
-# from models.classifiers import ClassifierModels
-# classifier_models: ClassifierModels = ClassifierModels(scaled_and_balaced_df_without_outliers)
-# classifier_models.run_brute()
-# classifier_models.run_optimized()
-# |--------------------------------------------------------------------------------------------------------------------|
+classifiers_model(df_s_b_wo)

@@ -113,7 +113,7 @@ class ClassifierModels(object):
             algorithm_opt.fit(self.X_train, self.Y_train)
             self.classifiers_optimized.append(algorithm_opt.best_estimator_)
             
-    def train(self, classifiers: list, fit: bool) -> None:
+    def train(self, classifiers: list, fit: bool, type_: str) -> None:
         """
         Train and get the algoritms results
         Args:
@@ -125,9 +125,10 @@ class ClassifierModels(object):
             training_score: np.ndarray = cross_val_score(algorithm, self.X_train, self.Y_train, cv=5)
             self.models.append(algorithm)
             
+            log: str = f"{self.classifiers[n].__class__.__name__} | {round(training_score.mean(), 4) * 100}%"
             genlog.report(
                 True,
-                f"Classifier Model: {self.classifiers[n].__class__.__name__} | {round(training_score.mean(), 4) * 100}%"
+                f"classifier model: [{type_}] {log}"
             )
     
     def _learing_curve(self, model: Any) -> list[np.ndarray, str]:
@@ -146,6 +147,7 @@ class ClassifierModels(object):
             model, self.X_train, self.Y_train, cv=cv, n_jobs=n_jobs, train_sizes=train_size_param 
         )
         
+        genlog.report("debug", f"classifier model: Learning Curve -> {model.__class__.__name__}")
         return train_size, train_score, test_score, model.__class__.__name__
         
     def run_learning_curve(self) -> None:
@@ -156,13 +158,13 @@ class ClassifierModels(object):
         self.learning_curve_graph.post_models(model_data_list)
         self.learning_curve_graph.show()
         
-    def run_brute(self) -> None:
+    def run_brute(self, learing_curve: bool) -> None:
         self._define_classifiers()
-        self.train(self.classifiers, True)
-        self.run_learning_curve()
+        self.train(self.classifiers, True, "brute")
+        self.run_learning_curve() if learing_curve == True else None
     
-    def run_optimized(self) -> None:
+    def run_optimized(self, learning_curve: bool) -> None:
         self._define_classifiers()
         self._apply_optimizer()
-        self.train(self.classifiers_optimized, False)
-        self.run_learning_curve()
+        self.train(self.classifiers_optimized, False, "optimized")
+        self.run_learning_curve() if learning_curve == True else None
