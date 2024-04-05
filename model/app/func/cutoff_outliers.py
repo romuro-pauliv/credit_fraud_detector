@@ -10,19 +10,31 @@ from data.treatment.cutoff_outliers import CutOffOutliers
 from config.config_files            import configfiles
 # |--------------------------------------------------------------------------------------------------------------------|
 
-feature_c0: str = configfiles.dot_ini['treatment']['treatment:cutoff_outliers']["class_0"]
-feature_c1: str = configfiles.dot_ini['treatment']['treatment:cutoff_outliers']["class_1"]
+M1_feature_c0: str = configfiles.dot_ini['treatment']['treatment:cutoff_outliers']["M1_class_0"]
+M1_feature_c1: str = configfiles.dot_ini['treatment']['treatment:cutoff_outliers']["M1_class_1"]
+
+M2_feature_c0: str = configfiles.dot_ini['treatment']['treatment:cutoff_outliers']["M2_class_0"]
+M2_feature_c1: str = configfiles.dot_ini['treatment']['treatment:cutoff_outliers']["M2_class_1"]
+
 
 def _transform(ini_data: str) -> list[str]:
     if ini_data == "None":
         return []
     return ini_data.split(",")
 
-def cutoff_outliers(data: pdDataframe) -> pdDataframe:
-    coo: CutOffOutliers = CutOffOutliers(data)
-    data: pdDataframe = coo.cutoff(_transform(feature_c0), 0)
+def cutoff_outliers(data: pdDataframe, mode: int) -> pdDataframe:
+    if mode == 1:
+        coo: CutOffOutliers = CutOffOutliers(data)
+        data: pdDataframe = coo.cutoff(_transform(M1_feature_c0), 0)
     
-    coo: CutOffOutliers = CutOffOutliers(data)
-    data: pdDataframe = coo.cutoff(_transform(feature_c1), 1)
+        coo: CutOffOutliers = CutOffOutliers(data)
+        data: pdDataframe = coo.cutoff(_transform(M1_feature_c1), 1)
+    
+    if mode == 2:
+        coo: CutOffOutliers = CutOffOutliers(data)
+        data: pdDataframe = coo.cutoff(_transform(M2_feature_c0), 0)
+    
+        coo: CutOffOutliers = CutOffOutliers(data)
+        data: pdDataframe = coo.cutoff(_transform(M2_feature_c1), 1)
     
     return data

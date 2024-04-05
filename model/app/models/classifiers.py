@@ -122,7 +122,7 @@ class ClassifierModels(object):
         self.models: list[Any] = []
         for n, algorithm in enumerate(classifiers):
             algorithm.fit(self.X_train, self.Y_train) if fit is True else None
-            training_score: np.ndarray = cross_val_score(algorithm, self.X_train, self.Y_train, cv=5)
+            training_score: np.ndarray = cross_val_score(algorithm, self.X_test, self.Y_test, cv=10)
             self.models.append(algorithm)
             
             log: str = f"{self.classifiers[n].__class__.__name__} | {round(training_score.mean(), 4) * 100}%"

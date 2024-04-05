@@ -36,7 +36,7 @@ df_s_b              : pdDataframe   = random_undersampling(df_s)
 correlation_matrix_graph(df_s, df_s_b)
 boxplot_graph(df_s_b)
 
-df_s_b_wo           : pdDataframe   = cutoff_outliers(df_s_b)
+df_s_b_wo           : pdDataframe   = cutoff_outliers(df_s_b, mode=1)
 
 dist_graph(df_s_b_wo)
 dimensionality_reduction(df_s_b_wo)
@@ -51,8 +51,8 @@ ndf_s_b            : pdDataframe   = oversampling(df_s)
 correlation_matrix_graph(df_s, ndf_s_b)
 boxplot_graph(ndf_s_b)
 
-dimensionality_reduction(ndf_s_b)
+ndf_s_b_wo         : pdDataframe = cutoff_outliers(ndf_s_b, mode=2)
 
+boxplot_graph(ndf_s_b_wo)
 
-
-# split_train_test(df_scaled)
+classifiers_model(ndf_s_b_wo)
