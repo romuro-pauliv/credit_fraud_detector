@@ -47,7 +47,7 @@ class Algo(object):
         Get T Distributed Stochastic Neighbor Embeding
         """
         a: float = time()
-        self.X_TSNE: np.ndarray = TSNE(n_components=2, random_state=42).fit_transform(self.X.values)
+        self.X_TSNE: np.ndarray = TSNE(n_components=2, random_state=42, n_jobs=-1).fit_transform(self.X.values)
         genlog.report("DEBUG", f"dimension reduction: TSNE Algorithm: {round(time()-a, 4)}s")
         self.graph.graph(self.X_TSNE, 0, "t-SNE")
         
@@ -75,7 +75,7 @@ class Algo(object):
         Get T Distributed Stochastic Neighbor Embbeding in 3 components
         """
         a: float = time()
-        self.X_TSNE3D: np.ndarray = TSNE(n_components=3, random_state=42).fit_transform(self.X.values)
+        self.X_TSNE3D: np.ndarray = TSNE(n_components=3, random_state=42, n_jobs=-1).fit_transform(self.X.values)
         genlog.report("DEBUG", f"dimension reduction: TSNE 3D Algorithm:{round(time()-a, 4)}s")
         self.graph3d.graph(self.X_TSNE3D, "t-SNE 3D")
     

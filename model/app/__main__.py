@@ -18,6 +18,7 @@ from func.cutoff_outliers       import cutoff_outliers
 from func.dist_graph            import dist_graph
 from func.DRA                   import dimensionality_reduction
 from func.classifiers_model     import classifiers_model
+from func.SMOTE_oversampling    import oversampling
 # |--------------------------------------------------------------------------------------------------------------------|
 
 csv_path            : PosixPath     = download_data()
@@ -27,9 +28,10 @@ data_info(df)
 time_amount_graph(df)
 
 df_s                : pdDataframe   = scale_time_amount_features(df)
-df_s_b              : pdDataframe   = random_undersampling(df_s)
 
-# split_train_test(df_scaled)
+
+# | Undersampling branch |------------------------------------------------------| 
+df_s_b              : pdDataframe   = random_undersampling(df_s)
 
 correlation_matrix_graph(df_s, df_s_b)
 boxplot_graph(df_s_b)
@@ -40,3 +42,17 @@ dist_graph(df_s_b_wo)
 dimensionality_reduction(df_s_b_wo)
 
 classifiers_model(df_s_b_wo)
+# |----------------------------------------------------------------------------|
+
+
+# | Oversampling Branch |------------------------------------------------------|
+ndf_s_b            : pdDataframe   = oversampling(df_s)
+
+correlation_matrix_graph(df_s, ndf_s_b)
+boxplot_graph(ndf_s_b)
+
+dimensionality_reduction(ndf_s_b)
+
+
+
+# split_train_test(df_scaled)
