@@ -17,6 +17,7 @@ from sklearn.linear_model   import LogisticRegression
 from sklearn.svm            import SVC
 from sklearn.neighbors      import KNeighborsClassifier
 from sklearn.tree           import DecisionTreeClassifier
+from sklearn.metrics        import confusion_matrix, ConfusionMatrixDisplay
 
 from pandas.core.frame  import DataFrame    as pdDataframe
 from pandas.core.series import Series       as pdSeries
@@ -131,6 +132,19 @@ class ClassifierModels(object):
                 f"classifier model: [{type_}] {log}"
             )
     
+    def real_test(self, X: pdDataframe, Y: pdSeries) -> None:
+        """
+        Real test with the real test data. Return the precision in the logs
+        """        
+        for model in self.models:
+            cm: np.ndarray = confusion_matrix(Y, model.predict(X))
+            fraud_precision     : float = round((cm[1][1]/(cm[1][1] + cm[0][1]))*100, 4)
+            n_fraud_precision   : float = round((cm[0][0]/(cm[0][0] + cm[1][0]))*100, 4)
+            model_name          : str = model.__class__.__name__
+            
+            log_prefix: str = f"classifier model: {model_name} | precision"
+            genlog.report("debug", f"{log_prefix} [n-fraud: {n_fraud_precision}%] [fraud: {fraud_precision}%]")
+            
     def _learing_curve(self, model: Any) -> list[np.ndarray, str]:
         """
         Determines cross-validated training and test scores for different training set sizes.

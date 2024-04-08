@@ -12,6 +12,8 @@ from sklearn.model_selection import StratifiedKFold
 from config.config_files import configfiles
 from log.genlog import genlog
 
+import pandas as pd
+
 from pandas.core.frame import DataFrame as pdDataframe
 from pandas.core.series import Series as pdSeries
 # |--------------------------------------------------------------------------------------------------------------------|
@@ -76,8 +78,22 @@ class SplitTrainTest(object):
         self._split()
         self._ratio_info()
     
-    def train(self) -> tuple[pdDataframe, pdSeries]:
-        return self.original_X_train, self.original_Y_train
+    def train(self) -> tuple[pdDataframe, pdSeries, pdDataframe]:
+        """
+        Return the train dataset.
+        Returns:
+            tuple[pdDataframe, pdSeries, pdDataframe]: X, Y, full dataframe
+        """
+        total: pdDataframe = self.original_X_train.copy(True)
+        total.insert(0, self.clmn_class, self.original_Y_train)
+        return self.original_X_train, self.original_Y_train, total
     
-    def test(self) -> tuple[pdDataframe, pdSeries]:
-        return self.original_X_test, self.original_Y_test
+    def test(self) -> tuple[pdDataframe, pdSeries, pdDataframe]:
+        """
+        Return the test dataset.
+        Returns:
+            tuple[pdDataframe, pdSeries, pdDataframe]: X, Y, full dataframe
+        """
+        total: pdDataframe = self.original_X_test.copy(True)
+        total.insert(0, self.clmn_class, self.original_Y_test)
+        return self.original_X_test, self.original_Y_test, total

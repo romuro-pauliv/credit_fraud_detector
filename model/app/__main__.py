@@ -29,30 +29,33 @@ time_amount_graph(df)
 
 df_s                : pdDataframe   = scale_time_amount_features(df)
 
+tt = split_train_test(df_s)
+Xt, Yt, train_df_s = tt.train()
+Xr, Yr, test_df_s  = tt.test()
 
 # | Undersampling branch |------------------------------------------------------| 
-df_s_b              : pdDataframe   = random_undersampling(df_s)
+train_df_s_b              : pdDataframe   = random_undersampling(train_df_s)
 
-correlation_matrix_graph(df_s, df_s_b)
-boxplot_graph(df_s_b)
+correlation_matrix_graph(train_df_s, train_df_s_b)
+boxplot_graph(train_df_s_b)
 
-df_s_b_wo           : pdDataframe   = cutoff_outliers(df_s_b, mode=1)
+train_df_s_b_wo           : pdDataframe   = cutoff_outliers(train_df_s_b, mode=1)
 
-dist_graph(df_s_b_wo)
-dimensionality_reduction(df_s_b_wo)
+dist_graph(train_df_s_b_wo)
+dimensionality_reduction(train_df_s_b_wo)
 
-classifiers_model(df_s_b_wo)
+classifiers_model(train_df_s_b_wo, Xr, Yr)
 # |----------------------------------------------------------------------------|
 
 
-# | Oversampling Branch |------------------------------------------------------|
-ndf_s_b            : pdDataframe   = oversampling(df_s)
+# # | Oversampling Branch |------------------------------------------------------|
+# ndf_s_b            : pdDataframe   = oversampling(df_s)
 
-correlation_matrix_graph(df_s, ndf_s_b)
-boxplot_graph(ndf_s_b)
+# correlation_matrix_graph(df_s, ndf_s_b)
+# boxplot_graph(ndf_s_b)
 
-ndf_s_b_wo         : pdDataframe = cutoff_outliers(ndf_s_b, mode=2)
+# ndf_s_b_wo         : pdDataframe = cutoff_outliers(ndf_s_b, mode=2)
 
-boxplot_graph(ndf_s_b_wo)
+# boxplot_graph(ndf_s_b_wo)
 
-classifiers_model(ndf_s_b_wo)
+# classifiers_model(ndf_s_b_wo)
