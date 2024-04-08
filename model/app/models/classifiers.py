@@ -17,7 +17,7 @@ from sklearn.linear_model   import LogisticRegression
 from sklearn.svm            import SVC
 from sklearn.neighbors      import KNeighborsClassifier
 from sklearn.tree           import DecisionTreeClassifier
-from sklearn.metrics        import confusion_matrix, ConfusionMatrixDisplay
+from sklearn.metrics        import confusion_matrix
 
 from pandas.core.frame  import DataFrame    as pdDataframe
 from pandas.core.series import Series       as pdSeries
