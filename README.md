@@ -1,4 +1,4 @@
-# Credit Fraud Detector
+# Credit Card Fraud Detector
 
 In this repository, we shall employ diverse predictive models to assess their efficacy in discerning whether a transaction qualifies as a routine payment or is indicative of fraudulent activity.
 
@@ -28,5 +28,51 @@ Given these results, a deep learning model was implemented, which achieved an ov
 | __Decision Tree__             | random under-sampling | [optimized, cross-validation] | 89.58% | 6.34% |
 | __ANN__                       | random under-sampling | [cross-validation] | 97.83% | 5.45% |
 | __ANN__                       | SMOTE over-sampling   | [cross-validation] | 99.97% | 84.67% |
+
 --- 
 
+## Installation
+
+First, we must establish a virtual development environment and install the dependencies:
+
+```bash
+cd model && python3 -m venv venv && source venv/bin/activate
+```
+
+To install the dependencies:
+
+```bash
+pip install --no-cache -r requirements.txt
+```
+
+---
+
+### Run
+
+Before running the code, it is necessary to [download the Kaggle data](https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud/data). Afterward, move the zip file to the `/model/app/resources/` folder of the project and rename the file to `data.zip`.
+
+To execute and obtain the results of the models, it is necessary to run the command:
+
+```bash
+python app
+```
+
+You can utilize the command `python app --help` to explore additional functionalities and supplementary analyses.
+
+```bash
+python app --help
+usage: app [-h] [--graphs] [--info] [--time_amount_graph] [--corrgraph] [--boxgraph] [--distgraph] [--learningcurvegraph] [--DRA]
+
+Credit Card Fraud Detection Models
+
+options:
+  -h, --help            show this help message and exit
+  --graphs              Plot all graphs
+  --info                Dataset informations
+  --time_amount_graph   Time and Amount Distribution Graphs
+  --corrgraph           Features Correlation Graph
+  --boxgraph            Feature Boxplot Graphs
+  --distgraph           Feature Distribution Graph
+  --learningcurvegraph  Learning Curve of classification models
+  --DRA                 Dimensionality Reduction Analysis
+```
