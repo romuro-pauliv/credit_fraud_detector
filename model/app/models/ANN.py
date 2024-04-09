@@ -11,7 +11,7 @@ from config.config_files    import configfiles
 import numpy as np
 
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import confusion_matrix
+from sklearn.metrics import confusion_matrix, classification_report
 
 from keras.models       import Sequential
 from keras.layers       import Dense
@@ -114,3 +114,4 @@ class ANNModel(object):
 
         log_prefix: str = f"classifier model: ANN | precision"
         genlog.report("debug", f"{log_prefix} [n-fraud: {n_fraud_precision}%] [fraud: {fraud_precision}%]")
+        print(classification_report(Y, predict))

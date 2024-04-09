@@ -12,6 +12,7 @@ from log.genlog                     import genlog
 import numpy as np
 
 from sklearn.model_selection import train_test_split, cross_val_score, GridSearchCV, learning_curve, ShuffleSplit
+from sklearn.metrics import classification_report
 
 from sklearn.linear_model   import LogisticRegression
 from sklearn.svm            import SVC
@@ -137,13 +138,15 @@ class ClassifierModels(object):
         Real test with the real test data. Return the precision in the logs
         """        
         for model in self.models:
-            cm: np.ndarray = confusion_matrix(Y, model.predict(X))
+            Y_pred: np.ndarray = model.predict(X)
+            cm: np.ndarray = confusion_matrix(Y, Y_pred)
             fraud_precision     : float = round((cm[1][1]/(cm[1][1] + cm[0][1]))*100, 4)
             n_fraud_precision   : float = round((cm[0][0]/(cm[0][0] + cm[1][0]))*100, 4)
             model_name          : str = model.__class__.__name__
             
             log_prefix: str = f"classifier model: {model_name} | precision"
             genlog.report("debug", f"{log_prefix} [n-fraud: {n_fraud_precision}%] [fraud: {fraud_precision}%]")
+            print(classification_report(Y, Y_pred))
             
     def _learing_curve(self, model: Any) -> list[np.ndarray, str]:
         """
